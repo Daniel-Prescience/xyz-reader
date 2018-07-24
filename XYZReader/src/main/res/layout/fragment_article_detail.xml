@@ -6,30 +6,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.xyzreader.ui.ArticleDetailActivity">
-<!--    android:fitsSystemWindows="true"-->
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:elevation="@dimen/app_bar_elevation"
+        app:elevation="@dimen/app_bar_elevation"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-        <!--        android:elevation="@dimen/app_bar_elevation"
-        android:layout_height="300dp"
-        android:fitsSystemWindows="true"-->
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsingToolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
-            app:collapsedTitleTextAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse"
+            app:collapsedTitleTextAppearance="@style/TextAppearance.AppCompat.Title"
             app:contentScrim="?attr/colorPrimary"
-            app:expandedTitleMarginStart="48dp"
             app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Title"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
-            <!--            android:fitsSystemWindows="true"
-            app:expandedTitleMarginStart="48dp"
-            app:expandedTitleMarginEnd="64dp"-->
 
             <ImageView
                 android:id="@+id/photo"
@@ -50,9 +44,9 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:elevation="4dp"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                app:elevation="4dp"
+                android:elevation="@dimen/app_bar_elevation"
+                app:elevation="@dimen/app_bar_elevation"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
