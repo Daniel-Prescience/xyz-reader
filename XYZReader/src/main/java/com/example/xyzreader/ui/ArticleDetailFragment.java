@@ -1,5 +1,6 @@
 package com.example.xyzreader.ui;
 
+import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.app.LoaderManager;
 import android.content.Intent;
@@ -11,7 +12,6 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.ShareCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.format.DateUtils;
@@ -42,7 +42,7 @@ public class ArticleDetailFragment extends Fragment implements
         LoaderManager.LoaderCallbacks<Cursor> {
     private static final String TAG = "ArticleDetailFragment";
 
-    public static final String ARG_ITEM_ID = "item_id";
+    private static final String ARG_ITEM_ID = "item_id";
 
     private Cursor mCursor;
     private long mItemId;
@@ -51,11 +51,13 @@ public class ArticleDetailFragment extends Fragment implements
     private ImageView mPhotoView;
     private ActionBar mSupportActionBar;
 
-    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss");
+    @SuppressLint("SimpleDateFormat")
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss");
     // Use default locale format
-    private SimpleDateFormat outputFormat = new SimpleDateFormat();
+    @SuppressLint("SimpleDateFormat")
+    private final SimpleDateFormat outputFormat = new SimpleDateFormat();
     // Most time functions can only handle 1902 - 2037
-    private GregorianCalendar START_OF_EPOCH = new GregorianCalendar(2,1,1);
+    private final GregorianCalendar START_OF_EPOCH = new GregorianCalendar(2,1,1);
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -103,10 +105,17 @@ public class ArticleDetailFragment extends Fragment implements
         CollapsingToolbarLayout collapsingToolbarLayout = mRootView.findViewById(R.id.collapsingToolbar);
         collapsingToolbarLayout.setCollapsedTitleTextColor(getResources().getColor(android.R.color.white));
 
-        AppCompatActivity appCompatActivity = ((AppCompatActivity) getActivity());
+        final AppCompatActivity appCompatActivity = ((AppCompatActivity) getActivity());
         Toolbar toolbar = mRootView.findViewById(R.id.toolbar);
         appCompatActivity.setSupportActionBar(toolbar);
         mSupportActionBar = appCompatActivity.getSupportActionBar();
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                appCompatActivity.onBackPressed();
+            }
+        });
 
         if (mSupportActionBar != null) {
             mSupportActionBar.setDisplayHomeAsUpEnabled(true);
@@ -168,14 +177,14 @@ public class ArticleDetailFragment extends Fragment implements
                                 + mCursor.getString(ArticleLoader.Query.AUTHOR)));
 
             }
-            bodyView.setText(Html.fromHtml(mCursor.getString(ArticleLoader.Query.BODY).substring(0, 10000).replaceAll("(\r\n|\n)", "<br />")));
+            /*.substring(0, 10000)*/
+            bodyView.setText(Html.fromHtml(mCursor.getString(ArticleLoader.Query.BODY).replaceAll("(\r\n|\n)", "<br />")));
             ImageLoaderHelper.getInstance(getActivity()).getImageLoader()
                     .get(mCursor.getString(ArticleLoader.Query.PHOTO_URL), new ImageLoader.ImageListener() {
                         @Override
                         public void onResponse(ImageLoader.ImageContainer imageContainer, boolean b) {
                             Bitmap bitmap = imageContainer.getBitmap();
                             if (bitmap != null) {
-                                Palette p = Palette.generate(bitmap, 12);
                                 mPhotoView.setImageBitmap(imageContainer.getBitmap());
                             }
                         }

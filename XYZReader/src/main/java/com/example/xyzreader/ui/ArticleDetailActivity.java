@@ -10,9 +10,7 @@ import android.os.Bundle;
 import android.support.v13.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
-import android.view.View;
 
 import com.example.xyzreader.R;
 import com.example.xyzreader.data.ArticleLoader;
@@ -30,21 +28,12 @@ public class ArticleDetailActivity extends AppCompatActivity
     private ViewPager mPager;
     private MyPagerAdapter mPagerAdapter;
 
+    @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_article_detail);
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
 
         getLoaderManager().initLoader(0, null, this);
 
@@ -56,10 +45,6 @@ public class ArticleDetailActivity extends AppCompatActivity
         mPager.setPageMarginDrawable(new ColorDrawable(0x22000000));
 
         mPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-            @Override
-            public void onPageScrollStateChanged(int state) {
-                super.onPageScrollStateChanged(state);
-            }
         });
 
         if (savedInstanceState == null) {
@@ -106,6 +91,7 @@ public class ArticleDetailActivity extends AppCompatActivity
             super(fm);
         }
 
+        @SuppressWarnings("deprecation")
         @Override
         public Fragment getItem(int position) {
             mCursor.moveToPosition(position);
